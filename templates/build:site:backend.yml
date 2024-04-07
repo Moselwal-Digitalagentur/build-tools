@@ -1,0 +1,133 @@
+build:site:backend:
+  stage: build
+  image: $PHP_IMAGE
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SUBMODULE_DEPTH: 1
+  rules:
+    - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+  tags:
+    - docker
+  before_script:
+    - export SHELL=/bin/bash
+  script:
+    - rm -rf vendor
+    - composer install --no-interaction --no-dev -o -a
+    #- vendor/bin/typo3 gsbcore:triggersynchronize
+
+    - |
+      # This Script downloads and extracts all TYPO3 language packs for the current TYPO3 version
+      
+      # Base URL for language packs
+      base_url="https://localize.typo3.org/xliff"
+
+      # Directory to download the language packs to
+      download_dir="."
+      mkdir -p "$download_dir"
+
+      # Language code to download
+      language_code="de"
+
+      # target directory for the extracted language packs
+      languages_dir="./var/labels/$language_code"
+      
+      # create target directory if it does not exist
+      mkdir -p "$languages_dir"
+
+      # path to composer.lock file
+      composer_lock="./composer.lock"
+      
+      # current TYPO3 version
+      TYPO3_VERSION=$(grep -oP '"name": "typo3/cms-core",\s*"version": "\Kv?[0-9]+' "$composer_lock" | head -1)
+
+      # extract all extensions from composer.lock
+      extensions=($(jq -r '.packages[] | select(.type == "typo3-cms-extension" or .type == "typo3-cms-framework") | .name' "$composer_lock"))
+
+      for ext in "${extensions[@]}"; do
+          # extract extension key from package name
+          ext_key=$(echo $ext | sed 's/.*\///')
+          # system extension (framework) - remove cms- prefix
+          clean_ext_key=${ext_key//cms-/}
+          ext_type=$(jq -r --arg ext "$ext" '.packages[] | select(.name == $ext) | .type' "$composer_lock")
+
+          if [[ $ext_type == "typo3-cms-framework" ]]; then
+              # system extension (framework)
+              # construct URL for language pack
+              first_char=${clean_ext_key:0:1}
+              second_char=${clean_ext_key:1:1}
+              url="$base_url/$first_char/$second_char/$clean_ext_key-l10n/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip"
+          else
+              # extensions
+              # construct URL for language pack
+              first_char=${ext_key:0:1}
+              second_char=${ext_key:1:1}
+              url="$base_url/$first_char/$second_char/$ext_key-l10n/$ext_key-l10n-$language_code.zip"
+          fi
+
+          echo "Lade Sprachpaket für $ext_key in $language_code herunter von $url"
+          wget -t 1 "$url" -P "$download_dir" || true
+
+          # unzip language pack
+          if [[ $ext_type == "typo3-cms-framework" ]]; then
+              # system extension (framework)
+              if [[ -f "$download_dir/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip" ]]; then
+                  unzip -o "$download_dir/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip" -d "$languages_dir"
+                  rm "$download_dir/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip"
+              fi
+          else
+              # extensions
+              if [[ -f "$download_dir/$ext_key-l10n-$language_code.zip" ]]; then
+                  unzip -o "$download_dir/$ext_key-l10n-$language_code.zip" -d "$languages_dir"
+                  rm "$download_dir/$ext_key-l10n-$language_code.zip"
+              fi
+          fi
+      done
+    # remove Documentation, Tests, Build folders of all packages but our own.
+    - find -L ./vendor -name Documentation -exec rm -rf {} \; || true;
+    - find -L ./vendor -name Tests -exec rm -rf {} \; || true;
+    - find -L ./vendor -name Build -exec rm -rf {} \; || true;
+    - find -L ./vendor -name .Build -exec rm -rf {} \; || true;
+    - find -L ./vendor -name build -exec rm -rf {} \; || true;
+    - find -L ./vendor -name .build -exec rm -rf {} \; || true;
+    - rm -rf env. && cp docker/httpd/.env .env && cp docker/httpd/staging.env staging.env || true &&  cp docker/httpd/production.env production.env || true
+    - rm -rf docker-compose.yml && cp docker/httpd/docker-compose.staging.yml docker-compose.staging.yml || true && cp docker/httpd/docker-compose.production.yml docker-compose.production.yml || true
+    - rm -rf $WEB_DIR/fileadmin
+  artifacts:
+    untracked: true
+    paths:
+      - ./*
+    exclude:
+      - ./*.ssh-agent
+      - ./.gitlab
+      - ./.gitlab/**/*
+      - ./.git
+      - ./.git/**/*
+      - ./.Build
+      - ./.Build/**/*
+      - .gitlab-ci-local
+      - .gitlab-ci-local/**/*
+      - .gitignore
+      - .gitattributes
+      - .gitlab-ci.yml
+      - .nvmrc
+      - .releaserc.yml
+      - .phpstorm.meta.php
+      - makefile
+      - auth.json
+      - cghooks.lock
+      - c3.php
+      - README.md
+      - captainhook.json
+      - composer.json
+      - composer.lock
+      - dynamicReturnTypeMeta.json
+      - docker
+      - docker/**/*
+      - .editorconfig
+      - $WEB_DIR/fileadmin
+      - $WEB_DIR/fileadmin/**/*
+      - rector.php
+    when: always
+    expire_in: 60 minutes

@@ -1,0 +1,23 @@
+build:site:test:backend:
+  stage: build
+  image: $PHP_IMAGE
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SUBMODULE_DEPTH: 1
+  rules:
+    - if: $CI_DEPLOY_FREEZE == null && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+  tags:
+    - docker
+  script:
+    - rm -rf vendor
+    - composer install --no-interaction -o -a -vvv
+  artifacts:
+    untracked: true
+    paths:
+      - ./*
+    exclude:
+      - ./*.ssh-agent
+    when: always
+    expire_in: 30 minutes

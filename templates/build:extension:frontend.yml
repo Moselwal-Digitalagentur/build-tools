@@ -1,0 +1,98 @@
+build:extension:frontend:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_REF_NAME != 'release'
+    - if: $CI_COMMIT_REF_NAME == 'release'
+      when: never
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/node:$NODE_VERSION-alpine
+  tags:
+    - docker
+  before_script:
+    apt-get update && apt-get install -y jq
+  script:
+    - |
+      if [ -f "package.json" ] || [ -d "Build" ]; then
+        export NPM_BUILD_DIR=.
+      fi
+      if [ -f "Build/package.json" ]; then
+        export NPM_BUILD_DIR=Build
+        cd ${NPM_BUILD_DIR}
+      fi
+      npm ci
+      npm run build
+      cd -
+    - |
+      git add ./Resources/Public
+      if ! git status --porcelain | grep -E "^"; then
+        echo "Build artifacts are up to date."
+      else
+        echo "Build artifacts are not up to date."
+        if [ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]; then
+          echo "This is not a Merge Request Pipeline. Therefore the CI Job fails due to the build artifacts not being up to date."
+          echo "Open a Merge Request for this issue to automatically resolve."
+          exit 1
+        fi
+      
+        echo "This CI JOB will fail but create a Merge Request to update this branch's (${CI_COMMIT_REF_NAME}) build artifacts."
+      
+        MR_BRANCH="${CI_COMMIT_REF_NAME}-$(date +%Y-%m-%d-%H%M%S)"
+        git checkout -b "${MR_BRANCH}"
+        echo -e "chore(build-artifacts): update build artifacts\n\nRefs: NO-JIRA" | git commit -F -
+        git push --set-upstream origin "${MR_BRANCH}"
+      
+        # Create Merge Request
+        MERGE_REQUEST_RESPONSE=$(curl --silent -H "PRIVATE-TOKEN: ${PAT}" -X POST \
+          "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests" \
+          --form "source_branch=${MR_BRANCH}" --form "target_branch=${CI_COMMIT_REF_NAME}" \
+          --form "title=chore(build-artifacts): update build artifacts" \
+          --form "remove_source_branch=true")
+
+        MERGE_REQUEST_ID=$(echo "$MERGE_REQUEST_RESPONSE" | jq -r '.id')
+        MERGE_REQUEST_IID=$(echo "$MERGE_REQUEST_RESPONSE" | jq -r '.iid')
+        sleep 10
+
+        # Enable auto merge
+        set_auto_merge() {
+          curl --silent -H "PRIVATE-TOKEN: ${PAT}" -X PUT \
+            -H "Content-Type: application/json" \
+            "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MERGE_REQUEST_IID}/merge" \
+            -d '{"id":"${MERGE_REQUEST_ID}","merge_request_iid":"${MERGE_REQUEST_IID}","merge_when_pipeline_succeeds":true}'
+        }
+        set_auto_merge
+        sleep 90
+      
+        # Wait for MR to be merged
+        while true; do
+          MR_STATUS_JSON=$(curl --silent -H "PRIVATE-TOKEN: ${PAT}" \
+            "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MERGE_REQUEST_IID}")
+          MR_STATUS=$(echo "$MR_STATUS_JSON" | jq -r '.state')
+      
+          if [ "$MR_STATUS" = "merged" ]; then
+            echo "Merge request has been merged."
+            echo "Now failing the job, since build artifacts were not up to date."
+            exit 1
+          elif [ "$MR_STATUS" = "closed" ]; then
+            echo "Merge request was closed without merging."
+            exit 1
+          else
+            echo "Merge request is not mergeable. Attempting to rebase..."
+            curl --silent -H "PRIVATE-TOKEN: ${PAT}" -X PUT \
+              "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MERGE_REQUEST_IID}/rebase"
+            sleep 5
+            set_auto_merge
+          fi
+      
+          echo "Waiting for merge request to be merged..."
+          sleep 90
+        done
+      fi
+  artifacts:
+    untracked: true
+    exclude:
+      - ./*.ssh-agent
+      - ./Build/node_modules/*
+    when: always
+    expire_in: 60 minutes
