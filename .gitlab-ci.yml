@@ -1,11 +1,11 @@
 stages: [build, test, release]
 
 include:
-  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/lint:commit-msg@$CI_COMMIT_SHA
-  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/lint:composer:normalize@$CI_COMMIT_SHA
-  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/lint:composer:psr-verify@$CI_COMMIT_SHA
-  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/lint:composer:validate@$CI_COMMIT_SHA
-  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/lint:eslint@$CI_COMMIT_SHA
+  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/build:extension:backend@$CI_COMMIT_SHA
+  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/build:extension:frontend@$CI_COMMIT_SHA
+  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/build:prepare@$CI_COMMIT_SHA
+  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/build:site:backend@$CI_COMMIT_SHA
+  - component: ${CI_SERVER_HOST}/${CI_PROJECT_PATH}/build:site:test:backend@$CI_COMMIT_SHA
 
 
 create-release:
