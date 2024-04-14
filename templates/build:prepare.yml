@@ -1,7 +1,7 @@
 spec:
   inputs:
     stage:
-      default: '.pre'
+      default: 'build'
 ---
 build:prepare:
   stage: $[[ inputs.stage ]]
