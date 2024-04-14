@@ -1,5 +1,10 @@
+spec:
+  inputs:
+    stage:
+      default: 'build'
+---
 build:site:backend:
-  stage: build
+  stage: $[[ inputs.stage ]]
   image: $PHP_IMAGE
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
@@ -130,4 +135,4 @@ build:site:backend:
       - $WEB_DIR/fileadmin/**/*
       - rector.php
     when: always
-    expire_in: 60 minutes
+    expire_in: 5 days

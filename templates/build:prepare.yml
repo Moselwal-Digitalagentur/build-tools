@@ -1,3 +1,8 @@
+spec:
+  inputs:
+    stage:
+      default: '.prepare'
+---
 variables:
   __HAS_PHP_CLASSES__: "false"
   __HAS_FRONTEND_BUILD__: "false"

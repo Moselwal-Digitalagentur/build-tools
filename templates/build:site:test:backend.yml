@@ -1,5 +1,10 @@
+spec:
+  inputs:
+    stage:
+      default: 'build'
+---
 build:site:test:backend:
-  stage: build
+  stage: $[[ inputs.stage ]]
   image: $PHP_IMAGE
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
