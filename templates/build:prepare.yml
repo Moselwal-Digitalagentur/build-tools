@@ -8,7 +8,7 @@ variables:
   __HAS_FRONTEND_BUILD__: "false"
   NPM_BUILD_DIR: "Build"
 build:prepare:
-  stage: .prepare
+  stage: $[[ inputs.stage ]]
   image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/bash
   rules:
     - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE != "schedule"
