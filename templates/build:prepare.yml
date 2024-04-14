@@ -1,7 +1,7 @@
 spec:
   inputs:
     stage:
-      default: '.prepare'
+      default: '.pre'
 ---
 variables:
   __HAS_PHP_CLASSES__: "false"
