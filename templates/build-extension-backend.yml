@@ -12,7 +12,8 @@ build:extension:backend:
     - if: $CI_COMMIT_REF_NAME != 'release'
     - if: $CI_COMMIT_REF_NAME == 'release'
       when: never
-  image: $PHP_IMAGE
+  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci
+  needs: ["build:prepare"]
   tags:
     - docker
   script:

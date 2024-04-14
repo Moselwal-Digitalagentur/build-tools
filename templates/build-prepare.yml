@@ -5,7 +5,7 @@ spec:
 ---
 build:prepare:
   stage: $[[ inputs.stage ]]
-  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/bash
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/bash:5-alpine3.19
   rules:
     - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE != "schedule"
     - if: $CI_PIPELINE_SOURCE == "schedule"
@@ -17,6 +17,7 @@ build:prepare:
       echo "NODE_VERSION=$(cat .nvmrc)" > build.env
       echo "WEB_DIR=$(jq -r '.extra["typo3/cms"]["web-dir"]' composer.json)" >> build.env
       echo "TYPO3_VERSION=$(jq -r '.require["typo3/cms-core"]' composer.json)" >> build.env
+      echo "PHP_VERSION=$(jq -r '.config.platform.php' composer.json)" >> build.env
 
       if ls Classes/*.php 1> /dev/null 2>&1; then
         echo "PHP-Klassendateien gefunden."
