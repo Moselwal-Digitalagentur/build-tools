@@ -1,12 +1,8 @@
 spec:
   inputs:
     stage:
-      default: 'build'
+      default: '.pre'
 ---
-variables:
-  __HAS_PHP_CLASSES__: "false"
-  __HAS_FRONTEND_BUILD__: "false"
-  NPM_BUILD_DIR: "Build"
 build:prepare:
   stage: $[[ inputs.stage ]]
   image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/bash
