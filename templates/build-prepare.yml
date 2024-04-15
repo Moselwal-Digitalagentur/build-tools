@@ -22,7 +22,7 @@ build:prepare:
       echo "TYPO3_VERSION=$(jq -r '.require["typo3/cms-core"]' composer.json)" >> build.env
       echo "PHP_VERSION=$(jq -r '.config.platform.php' composer.json)" >> build.env
 
-      if ls Classes/*.php 1> /dev/null 2>&1; then
+      if [ -d "Classes" ]; then
         echo "PHP-Klassendateien gefunden."
         export __HAS_PHP_CLASSES__="true"
       else
