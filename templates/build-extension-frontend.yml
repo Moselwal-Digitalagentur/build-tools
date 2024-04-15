@@ -17,7 +17,7 @@ build:extension:frontend:
   tags:
     - docker
   before_script:
-    apk add --nocache jq git
+    apk add --no-cache jq git
   script:
     - |
       if [ -f "package.json" ] || [ -d "Build" ]; then
