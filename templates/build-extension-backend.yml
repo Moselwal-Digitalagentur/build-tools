@@ -5,6 +5,7 @@ spec:
 ---
 build:extension:backend:
   stage: $[[ inputs.stage ]]
+  needs: ["build:prepare"]
   rules:
     - if: $CI_COMMIT_TAG
       when: never
@@ -13,7 +14,6 @@ build:extension:backend:
     - if: $CI_COMMIT_REF_NAME == 'release'
       when: never
   image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci
-  needs: ["build:prepare"]
   tags:
     - docker
   script:
