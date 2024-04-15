@@ -13,7 +13,7 @@ build:extension:frontend:
     - if: $CI_COMMIT_REF_NAME != 'release'
     - if: $CI_COMMIT_REF_NAME == 'release'
       when: never
-  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/node:$NODE_VERSION-alpine
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/node:$NODE_VERSION-alpine3.19
   tags:
     - docker
   before_script:
