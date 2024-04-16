@@ -5,7 +5,7 @@ spec:
 ---
 build:site:backend:
   stage: $[[ inputs.stage ]]
-  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci/php-ci:latest
+  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci:latest
   needs: ["build:prepare"]
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
