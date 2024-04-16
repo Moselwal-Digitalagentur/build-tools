@@ -30,10 +30,11 @@ build:extension:frontend:
       npm ci
       npm run build
       cd -
+    - pwd
+    - ls -la
+    - echo $CI_PROJECT_DIR
+    - git status
     - |
-      pwd
-      ls -la
-      echo $CI_PROJECT_DIR
       git add ./Resources/Public
       if ! git status --porcelain | grep -E "^"; then
         echo "Build artifacts are up to date."
