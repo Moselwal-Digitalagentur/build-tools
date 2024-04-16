@@ -29,7 +29,7 @@ build:extension:frontend:
       fi
       npm ci
       npm run build
-      cd -
+      cd $CI_PROJECT_DIR
     - pwd
     - ls -la
     - echo $CI_PROJECT_DIR
