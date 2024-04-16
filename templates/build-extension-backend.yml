@@ -20,8 +20,5 @@ build:extension:backend:
     - composer install --no-interaction -o -a -vvv
   artifacts:
     untracked: true
-    exclude:
-      - ./*.ssh-agent
-      - ./composer.lock
     when: always
     expire_in: 60 minutes
