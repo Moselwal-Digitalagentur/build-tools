@@ -19,7 +19,7 @@ stages: [build, test, release]
 #TODO: Add Tests
 
 include:
-  - component: ${CI_SERVER_HOST}/devops/ci-cd-components/release-tools/semantic-release@1.2.1
+  - component: ${CI_SERVER_HOST}/devops/ci-cd-components/release-tools/semantic-release@1.2.2
     inputs:
       stage: release
 
