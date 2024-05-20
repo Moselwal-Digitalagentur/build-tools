@@ -1,3 +1,10 @@
+## [1.3.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.2.0...1.3.0) (2024-05-20)
+
+
+### :sparkles: Features
+
+* make prepare job more resilient ([7826f3d](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/7826f3dd664ff6d8ac8f9461dc2c77e7d695d213)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.2.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.1.17...1.2.0) (2024-05-15)
 
 
