@@ -18,7 +18,7 @@ spec:
   inputs:
     stage:
       default: 'build'
-      description: "The stage in the CI/CD pipeline where this job will run.  "
+      description: "The stage in the CI/CD pipeline where this job will run."
     rules-config:
       description: "Configuration rules that determine when the job should run."
       type: array
@@ -52,11 +52,31 @@ build:prepare:
   script:
     - $[[ inputs.additional-script-begin ]]
     - |
-      echo "NODE_VERSION=$(cat .nvmrc)" > build.env
-      echo "WEB_DIR=$(jq -r '.extra["typo3/cms"]["web-dir"]' composer.json)" >> build.env
-      echo "TYPO3_VERSION=$(jq -r '.require["typo3/cms-core"]' composer.json)" >> build.env
-      echo "PHP_VERSION=$(jq -r '.config.platform.php' composer.json)" >> build.env
+      RED='\033[0;31m'
+      NC='\033[0m'
+      # Set default values
+      NODE_VERSION=${NODE_VERSION:-"12"}
+      WEB_DIR=${WEB_DIR:-"public"}
+      TYPO3_VERSION=${TYPO3_VERSION:-"^10.4"}
+      PHP_VERSION=${PHP_VERSION:-"7.4"}
 
+      # Read values from files if they exist
+      if [ -f ".nvmrc" ]; then
+        NODE_VERSION=$(cat .nvmrc)
+      fi
+
+      if [ -f "composer.json" ]; then
+        WEB_DIR=$(jq -r '.extra["typo3/cms"]["web-dir"] // "public"' composer.json)
+        TYPO3_VERSION=$(jq -r '.require["typo3/cms-core"] // "^10.4"' composer.json | tr '\n' ' ' | awk '{for(i=1;i<=NF;i++) if($i > max) max=$i} END {print max}')
+        PHP_VERSION=$(jq -r '.config.platform.php // "7.4"' composer.json)
+      fi
+
+      echo "NODE_VERSION=${NODE_VERSION}" > build.env
+      echo "WEB_DIR=${WEB_DIR}" >> build.env
+      echo "TYPO3_VERSION=${TYPO3_VERSION}" >> build.env
+      echo "PHP_VERSION=${PHP_VERSION}" >> build.env
+
+      echo -e "${RED}__HAS_PHP_CLASSES__ is obsolete, will be removed in next Version ${NC}"
       if [ -d "Classes" ]; then
         echo "Found PHP-Classes."
         export __HAS_PHP_CLASSES__="true"
@@ -64,7 +84,8 @@ build:prepare:
         echo "No PHP-Classes."
         export __HAS_PHP_CLASSES__="false"
       fi
-
+      
+      echo -e "${RED}__HAS_FRONTEND_BUILD__ is obsolete, will be removed in next Version ${NC}"
       if [ -f "package.json" ] || [ -d "Build" ]; then
         echo "Found FE-Build"
         export __HAS_FRONTEND_BUILD__="true"
@@ -74,9 +95,9 @@ build:prepare:
       fi
       
       # Export and reuse it in next jobs
-      # Jobs needs to add this job in the needs-Section
-      echo "__HAS_PHP_CLASSES__=$__HAS_PHP_CLASSES__" >> build.env
-      echo "__HAS_FRONTEND_BUILD__=$__HAS_FRONTEND_BUILD__" >> build.env
+      # Jobs need to add this job in the needs-Section
+      echo "__HAS_PHP_CLASSES__=${__HAS_PHP_CLASSES__}" >> build.env
+      echo "__HAS_FRONTEND_BUILD__=${__HAS_FRONTEND_BUILD__}" >> build.env
     - $[[ inputs.additional-script-end ]]
   artifacts:
     reports:
