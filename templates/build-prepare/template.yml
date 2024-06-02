@@ -50,8 +50,6 @@ build:prepare:
   script:
     - $[[ inputs.additional-script-begin ]]
     - |
-      RED='\033[0;31m'
-      NC='\033[0m'
       # Set default values
       NODE_VERSION=${NODE_VERSION:-"20"}
       WEB_DIR=${WEB_DIR:-"public"}
