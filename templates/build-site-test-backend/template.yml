@@ -24,6 +24,8 @@ spec:
       type: array
       default:
         - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_TAG != null
+          exists:
+            - composer.json
         - when: never
     image-config:
       # TODO: Refactor and use Semantic Versioning

@@ -26,6 +26,9 @@ spec:
         - if: $CI_COMMIT_TAG || $CI_COMMIT_REF_NAME == 'release'
           when: never
         - if: ($CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS == null) || $CI_PIPELINE_SOURCE == 'merge_request_event'
+          exists:
+            - composer.json
+            - ./**/composer.json
         - when: never
     image-config:
       # TODO: Refactor and use Semantic Versioning
