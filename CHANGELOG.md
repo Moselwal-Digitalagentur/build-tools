@@ -1,3 +1,9 @@
+## [1.4.1](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.4.0...1.4.1) (2024-06-02)
+
+### :bug: Fixes
+
+* clean up build-prepare-job ([59e4ef9](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/59e4ef925896a4d4c0299769d948d65786a26a24)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.4.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.3.0...1.4.0) (2024-06-02)
 
 ### :sparkles: Features
