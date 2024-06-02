@@ -1,3 +1,9 @@
+## [1.4.2](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.4.1...1.4.2) (2024-06-02)
+
+### :repeat: Chores
+
+* update rules, only execute jobs if need files exists. ([3773917](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/3773917a64deaded6dfcf7145266120e4e20c477)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.4.1](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.4.0...1.4.1) (2024-06-02)
 
 ### :bug: Fixes
