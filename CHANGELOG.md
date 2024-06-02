@@ -1,3 +1,19 @@
+## [1.4.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.3.0...1.4.0) (2024-06-02)
+
+### :sparkles: Features
+
+* update rules. ([07c343b](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/07c343b215923fef3ff73b069d0bf0bbf0418c0c)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
+### :bug: Fixes
+
+* bump semantic-release version ([5c84305](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/5c843055bef120ad11561b64f8ca060f1e1e61dd)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
+### :repeat: Chores
+
+* bump release tools version ([54e45ac](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/54e45acecdf3992ba143c37e79c49a1af073cb67)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+* override release rules  ([c13db3e](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/c13db3e72f180766b7a31eac64a2e3d7a1c3001c)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+* update alpine version ([5916e01](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/5916e01c5b57c5aedcb5bcbcaca865f1cb9db516)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.3.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.2.0...1.3.0) (2024-05-20)
 
 
