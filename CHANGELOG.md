@@ -1,3 +1,9 @@
+## [1.6.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.5.0...1.6.0) (2024-06-10)
+
+### :sparkles: Features
+
+* **build-site-backend:** add artifact excludes ([3eaa0a3](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/3eaa0a336818033ea7c07c51c1173c58f5e02813))
+
 ## [1.5.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.4.2...1.5.0) (2024-06-10)
 
 ### :sparkles: Features
