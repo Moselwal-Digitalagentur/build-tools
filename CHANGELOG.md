@@ -1,3 +1,9 @@
+## [1.5.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.4.2...1.5.0) (2024-06-10)
+
+### :sparkles: Features
+
+* **build-site-backend:** add inputs for ([9a2ede9](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/9a2ede9a46c286169d42be4d1401f1af5482ab10))
+
 ## [1.4.2](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.4.1...1.4.2) (2024-06-02)
 
 ### :repeat: Chores
