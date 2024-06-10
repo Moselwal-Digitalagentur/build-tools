@@ -27,6 +27,9 @@ spec:
           exists:
             - composer.json
         - when: never
+    needs-config:
+      description: "Configure the jobs that needed to run this job."
+      default: ["build:prepare"]
     image-config:
       # TODO: Refactor and use Semantic Versioning
       description: "The Docker image to use for the job. This should use semantic versioning."
@@ -51,7 +54,7 @@ spec:
 ---
 build:site:backend:
   stage: $[[ inputs.stage ]]
-  needs: ["build:prepare"]
+  needs: $[[ inputs.needs-config ]]
   rules: $[[ inputs.rules-config ]]
   image: $[[ inputs.image-config | expand_vars ]]
   tags: $[[ inputs.tags-config ]]
