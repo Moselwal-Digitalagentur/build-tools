@@ -39,8 +39,14 @@ spec:
     additional-script-begin:
       description: "Add additional Script at the beginning of the Script."
       default: ''
+    additional-post-composer-install-script:
+      description: "Add additional Script after composer install."
+      default: ''
     additional-script-end:
       description: "Add additional Script at the end of the Script."
+      default: ''
+    additional-find-options-vendor-documentation-removal:
+      description: "Add additional find options to the removal command of vendor documentation."
       default: ''
 ---
 build:site:backend:
@@ -58,6 +64,7 @@ build:site:backend:
     - $[[ inputs.additional-script-begin ]]
     - rm -rf vendor
     - composer install --no-interaction --no-dev -o -a
+    - $[[ inputs.additional-post-composer-install-script ]]
 
     - |
       # This Script downloads and extracts all TYPO3 language packs for the current TYPO3 version
@@ -82,7 +89,7 @@ build:site:backend:
       composer_lock="./composer.lock"
       
       # current TYPO3 version
-      TYPO3_VERSION=$(grep -oP '"name": "typo3/cms-core",\s*"version": "\Kv?[0-9]+' "$composer_lock" | head -1)
+      TYPO3_VERSION="$(jq -r '.packages[] | select(.name == "typo3/cms-core") | .version' "${composer_lock}")"
 
       # extract all extensions from composer.lock
       extensions=($(jq -r '.packages[] | select(.type == "typo3-cms-extension" or .type == "typo3-cms-framework") | .name' "$composer_lock"))
@@ -127,7 +134,7 @@ build:site:backend:
           fi
       done
     # remove Documentation, Tests, Build folders of all packages but our own.
-    - find -L ./vendor -name Documentation -exec rm -rf {} \; || true;
+    - find -L ./vendor -name Documentation $[[ inputs.additional-find-options-vendor-documentation-removal ]] -exec rm -rf {} \; || true;
     - find -L ./vendor -name Tests -exec rm -rf {} \; || true;
     - find -L ./vendor -name Build -exec rm -rf {} \; || true;
     - find -L ./vendor -name .Build -exec rm -rf {} \; || true;
