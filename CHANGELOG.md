@@ -1,3 +1,9 @@
+## [1.7.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.6.0...1.7.0) (2024-06-10)
+
+### :sparkles: Features
+
+* editable needs-config ([28f5ef3](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/28f5ef3129f08de06428b7e4d97f62626932fbfb))
+
 ## [1.6.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.5.0...1.6.0) (2024-06-10)
 
 ### :sparkles: Features
