@@ -154,6 +154,8 @@ build:site:backend:
       - ./.gitlab/**/*
       - ./.git
       - ./.git/**/*
+      - "*/.gitkeep"
+      - "*/.gitmodules"
       - ./.Build
       - ./.Build/**/*
       - .gitlab-ci-local
@@ -162,6 +164,7 @@ build:site:backend:
       - .gitattributes
       - .gitlab-ci.yml
       - .nvmrc
+      - .npm/**
       - .releaserc.yml
       - .phpstorm.meta.php
       - makefile
@@ -179,5 +182,15 @@ build:site:backend:
       - $WEB_DIR/fileadmin
       - $WEB_DIR/fileadmin/**/*
       - rector.php
+      - phpmd.baseline.xml
+      - codeception.yml
+      - phpstan.neon
+      - budget.json
+      - phpstan-baseline.neon
+      - "**/phpmetrics/*"
+      - "**/Test/*"
+      - "**/Tests/*"
+      - "**/test/*"
+      - "**/tests/*"
     when: always
     expire_in: 5 days
