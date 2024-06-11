@@ -95,9 +95,9 @@ build:site:backend:
       # path to composer.lock file
       composer_lock="./composer.lock"
       
-      # current TYPO3 version
-      TYPO3_VERSION="$(jq -r '.packages[] | select(.name == "typo3/cms-core") | .version' "${composer_lock}")"
-
+      # current TYPO3 MAJOR version
+      TYPO3_VERSION="$(jq -r '.packages[] | select(.name == "typo3/cms-core") | .version' "${composer_lock}" | cut -d '.' -f1)"
+      
       # extract all extensions from composer.lock
       extensions=($(jq -r '.packages[] | select(.type == "typo3-cms-extension" or .type == "typo3-cms-framework") | .name' "$composer_lock"))
 
