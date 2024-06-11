@@ -1,3 +1,9 @@
+## [1.8.1](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.8.0...1.8.1) (2024-06-11)
+
+### :bug: Fixes
+
+* build:site:backend use typo3 major version ([643dadb](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/643dadb3865a9644297d19e9206623eef00107e8)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.8.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.7.0...1.8.0) (2024-06-11)
 
 ### :sparkles: Features
