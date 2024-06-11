@@ -29,7 +29,11 @@ spec:
         - when: never
     needs-config:
       description: "Configure the jobs that needed to run this job."
-      default: ["build:prepare"]
+      type: array
+      default:
+        - job: build:prepare
+          optional: false
+          artifacts: true
     image-config:
       # TODO: Refactor and use Semantic Versioning
       description: "The Docker image to use for the job. This should use semantic versioning."
