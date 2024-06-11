@@ -1,3 +1,9 @@
+## [1.8.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.7.0...1.8.0) (2024-06-11)
+
+### :sparkles: Features
+
+* **build-site-backend, build-site-test-backend:** configure job needs ([49ea7b0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/49ea7b00a1bf60566551b33447cfed04f3a116fd))
+
 ## [1.7.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.6.0...1.7.0) (2024-06-10)
 
 ### :sparkles: Features
