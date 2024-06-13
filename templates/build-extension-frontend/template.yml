@@ -30,6 +30,13 @@ spec:
             - package.json
             - ./**/package.yml
         - when: never
+    needs-config:
+      description: "Configure the jobs that needed to run this job."
+      type: array
+      default:
+        - job: build:prepare
+          optional: false
+          artifacts: true
     image-config:
       description: "The Docker image to use for the job. This should use semantic versioning."
       default: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/node:$NODE_VERSION-alpine3.20"
@@ -47,7 +54,7 @@ spec:
 ---
 build:extension:frontend:
   stage: $[[ inputs.stage ]]
-  needs: ["build:prepare"]
+  needs: $[[ inputs.needs-config ]]
   rules: $[[ inputs.rules-config ]]
   image: $[[ inputs.image-config | expand_vars ]]
   tags: $[[ inputs.tags-config ]]
