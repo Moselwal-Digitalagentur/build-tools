@@ -1,3 +1,9 @@
+## [1.9.2](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.9.1...1.9.2) (2024-06-13)
+
+### :bug: Fixes
+
+* cp htacess only if missing ([6b873a4](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/6b873a4e591c307bdd5c3f6690e061abff79fcb1)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.9.1](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.9.0...1.9.1) (2024-06-13)
 
 ### :bug: Fixes
