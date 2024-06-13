@@ -113,7 +113,7 @@ build:site:backend:
               # construct URL for language pack
               first_char=${clean_ext_key:0:1}
               second_char=${clean_ext_key:1:1}
-              url="$base_url/$first_char/$second_char/$clean_ext_key-l10n/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip"
+              url="$base_url/$first_char/$second_char/$clean_ext_key-l10n/$clean_ext_key-l10n-$language_code.$TYPO3_VERSION.zip"
           else
               # extensions
               # construct URL for language pack
@@ -128,9 +128,9 @@ build:site:backend:
           # unzip language pack
           if [[ $ext_type == "typo3-cms-framework" ]]; then
               # system extension (framework)
-              if [[ -f "$download_dir/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip" ]]; then
-                  unzip -o "$download_dir/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip" -d "$languages_dir"
-                  rm "$download_dir/$clean_ext_key-l10n-$language_code.v$TYPO3_VERSION.zip"
+              if [[ -f "$download_dir/$clean_ext_key-l10n-$language_code.$TYPO3_VERSION.zip" ]]; then
+                  unzip -o "$download_dir/$clean_ext_key-l10n-$language_code.$TYPO3_VERSION.zip" -d "$languages_dir"
+                  rm "$download_dir/$clean_ext_key-l10n-$language_code.$TYPO3_VERSION.zip"
               fi
           else
               # extensions
