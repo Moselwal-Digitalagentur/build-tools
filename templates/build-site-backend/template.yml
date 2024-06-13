@@ -150,7 +150,10 @@ build:site:backend:
     - rm -rf env. && cp docker/httpd/.env .env && cp docker/httpd/staging.env staging.env || true &&  cp docker/httpd/production.env production.env || true
     - rm -rf docker-compose.yml && cp docker/httpd/docker-compose.staging.yml docker-compose.staging.yml || true && cp docker/httpd/docker-compose.production.yml docker-compose.production.yml || true
     - rm -rf $WEB_DIR/fileadmin
-    - cp vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess public/.htaccess
+    - |
+      if [ ! -f "public/.htaccess" ]; then
+        cp vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess public/.htaccess
+      fi  
     - $[[ inputs.additional-script-end ]]
   artifacts:
     untracked: true
