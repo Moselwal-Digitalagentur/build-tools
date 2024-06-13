@@ -1,3 +1,9 @@
+## [1.9.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.8.2...1.9.0) (2024-06-13)
+
+### :sparkles: Features
+
+* add needs-config for extension builds ([16ab29d](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/16ab29d600709a2eddf81ff6335a613eea85b565))
+
 ## [1.8.2](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.8.1...1.8.2) (2024-06-13)
 
 ### :bug: Fixes
