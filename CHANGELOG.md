@@ -1,3 +1,9 @@
+## [1.8.2](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.8.1...1.8.2) (2024-06-13)
+
+### :bug: Fixes
+
+* language update ([d7287d0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/d7287d0772b14d111a4694c51dcb66e600b27589)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.8.1](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.8.0...1.8.1) (2024-06-11)
 
 ### :bug: Fixes
