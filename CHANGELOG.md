@@ -1,3 +1,9 @@
+## [1.9.1](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.9.0...1.9.1) (2024-06-13)
+
+### :bug: Fixes
+
+* missing htaccess file  ([8c26ce6](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/commit/8c26ce6c9d4a59c1dd3e0e19e9e2eb35726febe9)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.9.0](https://gitlab.moselwal.io/devops/ci-cd-components/build-tools/compare/1.8.2...1.9.0) (2024-06-13)
 
 ### :sparkles: Features
